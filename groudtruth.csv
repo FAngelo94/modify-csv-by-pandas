@@ -1,0 +1,17 @@
+,objectId,time,timestamp,eventName,eventNumber
+0,nespresso_jolmilano_groundtruth,2018-07-02 11:30:30,1530523830108.0,coffee,1500
+1,nespresso_jolmilano_groundtruth,2018-07-02 11:30:38,1530523838088.0,on,500
+2,nespresso_jolmilano_groundtruth,2018-07-02 15:03:40,1530536620547.0,on,500
+3,nespresso_jolmilano_groundtruth,2018-07-02 15:04:21,1530536661768.0,coffee,1500
+4,nespresso_jolmilano_groundtruth,2018-07-02 17:31:52,1530545512038.0,on,500
+5,nespresso_jolmilano_groundtruth,2018-07-02 17:32:12,1530545532561.0,coffee,1500
+6,nespresso_jolmilano_groundtruth,2018-07-03 09:13:19,1530601999525.0,on,500
+7,nespresso_jolmilano_groundtruth,2018-07-03 09:14:53,1530602093465.0,coffee,1500
+8,nespresso_jolmilano_groundtruth,2018-07-03 09:18:04,1530602284310.0,coffee,1500
+9,nespresso_jolmilano_groundtruth,2018-07-03 09:20:42,1530602442888.0,coffee,1500
+10,nespresso_jolmilano_groundtruth,2018-07-03 11:03:40,1530608620257.0,on,500
+11,nespresso_jolmilano_groundtruth,2018-07-03 11:04:06,1530608646341.0,coffee,1500
+12,nespresso_jolmilano_groundtruth,2018-07-03 15:46:37,1530625597117.0,on,500
+13,nespresso_jolmilano_groundtruth,2018-07-03 15:47:17,1530625637014.0,coffee,1500
+14,nespresso_jolmilano_groundtruth,2018-07-03 16:55:55,1530629755837.0,on,500
+15,nespresso_jolmilano_groundtruth,2018-07-03 16:56:27,1530629787409.0,coffee,1500
