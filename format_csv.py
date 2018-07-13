@@ -3,17 +3,21 @@ import pandas as pd
 import time
 from datetime import datetime
 
-def rimuovi_NaN(data):
-    #Elimina le righe contenenti NaN e null nella colonna 'objectId'
-    #data: il dataframe che si vuole modificare
+def remove_NaN(data):
+    """
+    Remove the rows that contain NaN and null in the 'objectId' column
+    data: dataframe we want to modify
+    """
     data = data[pd.notnull(data['objectId'])]
     data = data[data['objectId']!="null"]
     return data
 
 def col_time(data):
-    #Legge la colonna "timestamp" e una nuova colonna con la data in formato
-    #"%Y-%I-%d %H:%M:%S"
-    #data: il dataframe che si vuole modificare
+    """
+    Read the column timestamp and create a new column with the date using format
+    "%Y-%I-%d %H:%M:%S"
+    data: dataframe we want to modify
+    """
     timestamp = data['timestamp']
     datacorrect = []
     i = 0
@@ -25,8 +29,10 @@ def col_time(data):
     return data
 
 def col_eventNumber(data):
-    #Sostituisce i nomi degli eventi sulla colonna "eventName" con dei valori numerici
-    #data: il dataframe che si vuole modificare
+    """
+    Substitute the name of events in the "eventName" column with numeric values
+    data: dataframe we want to modify
+    """
     events = data['eventName']
     eventNumber = []
     i=0
@@ -45,13 +51,25 @@ def col_eventNumber(data):
     data['eventNumber'] = eventNumber
     return data
 
-def crea_csv_nuovo(data,name):
+def create_new_csv(data,name):
+    """
+    Save a dataframe in a new file csv
+    data: dataframe we want to modify
+    name: name of the new csv file
+    """
     #Crea un nuovo file csv
     #data: il dataframe che si vuole modificare
     #name: nome del nuovo file
     data.to_csv(name+".csv")
     
-def modifica_ore(data,ore,ms):
+def modify_hour(data,hour,ms):
+    """
+    Function to add hour to the date of the dataframe 
+    data: dataframe we want to modify
+    hour: how many hours we want sum to the date
+    ms  : number of charapter present in the table, after the seconds
+        (example: for "2018-07-02 11:30:30.05" ms=3 in order to remove ".05")
+    """
     #data: il dataframe che si vuole modificare
     #ore: quante ore si vogliono sommare alla data 
     #ms: numero di caratteri, nella data presente in tabella, presenti dopo i secondi
@@ -59,16 +77,17 @@ def modifica_ore(data,ore,ms):
     d = str(data['time'][0])
     d = d[0:len(d)-ms]
     time.mktime(datetime.strptime(d, "%Y-%I-%d %H:%M:%S").timetuple())
-    d=datetime.fromtimestamp(time.mktime(datetime.strptime(d, "%Y-%I-%d %H:%M:%S").timetuple())+(60*60*2))
+    d=datetime.fromtimestamp(time.mktime(datetime.strptime(d, "%Y-%I-%d %H:%M:%S").timetuple())+(60*60*hour))
     data['time']=d
     return data
 
 #Codice di esempio che usa i metodi sopra (senza creare nuovi file):
 #cOSTANTI
+'''
 FILE_MONGO = "mongo.csv"
 
 mongo = pd.read_csv(FILE_MONGO)
-mongo = rimuovi_NaN(mongo)
+mongo = remove_NaN(mongo)
 print(mongo.head())
 nespresso   = mongo[mongo['objectId']=="nespresso_jolmilano"].reset_index(drop=True)
 print(nespresso.head(3))
@@ -82,3 +101,4 @@ nespresso.head()
 groundtruth = col_time(groundtruth)
 groundtruth = col_eventNumber(groundtruth)
 groundtruth.head()
+'''
