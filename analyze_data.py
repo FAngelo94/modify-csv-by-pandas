@@ -89,23 +89,41 @@ def average_energy(power,events,borders,eventName):
         in this format -> %Y-%m-%d %H:%M:%S
     """
     event_consider = events[events['eventName']==eventName].reset_index(drop=True)
-    average = 0
-    i       = 0
-    count   = 0
+    average   = 0
+    i          = 0
+    count      = 0
+    minValue   = 10000
+    maxValue   = 0
+    minAverage = 10000
+    maxAverage = 0  
     while(i<len(event_consider)):
         date   = time.mktime(datetime.strptime(event_consider['time'][i], "%Y-%m-%d %H:%M:%S").timetuple())
-        start  = str(datetime.fromtimestamp(date-borders[0]))
+        start  = str(datetime.fromtimestamp(date+borders[0]))
         end    = str(datetime.fromtimestamp(date+borders[1]))
-        sum_values = sum(power[(power['time']>=start)&(power['time']<=end)]['value'])
-        tot_values = len(power[(power['time']>=start)&(power['time']<=end)]['value'])
+        values = power[(power['time']>=start)&(power['time']<=end)]['value']
+        sum_values = sum(values)
+        tot_values = len(values)
         if tot_values>0:
+            if values.max() > maxValue:
+                maxValue = values.max()
+            if values.min() < minValue:
+                minValue = values.min()
+            if sum_values/tot_values > maxAverage:
+                maxAverage = sum_values/tot_values
+            if sum_values/tot_values < minAverage:
+                minAverage = sum_values/tot_values
             average = average + sum_values/tot_values
             count += 1
         i += 1
-    average = average / count
-    print("number of", eventName ,"in groudtruth and power=",count)
-    print("Final Av=",average)
-    return average
+    if count>0:
+        average = average / count
+        print("number of", eventName ,"in groudtruth and power=",count)
+        print("minValue=",minValue,"maxValue=",maxValue)
+        print("minAverage=",minAverage,"maxAverage=",maxAverage)
+        print("Final Av=",average)
+        return average
+    else:
+        print("Not values found in the range")
 
 def get_special_point(power,events,borders,eventName,numericValue):
     """
@@ -155,3 +173,23 @@ sp = get_special_point(groundtruth,[10,10],"coffee",1000)
 sp_2 = get_special_point(groundtruth,[10,10],"on",1000)
 draw_power_graphics(power,[sp,sp_2],band=2500)
 '''
+
+power = pd.read_csv("power.csv")
+groundtruth = pd.read_csv("groudtruth.csv")
+sp1 = get_special_point(power,groundtruth,[7,7],"coffee",1000)
+sp2 = get_special_point(power,groundtruth,[7,7],"on",1000)
+print("-"*20,"ENERGY FOR ON","-"*20)
+average_energy(power,groundtruth,[-7,7],"on")
+print("-"*20,"ENERGY FOR COFFEE","-"*20)
+average_energy(power,groundtruth,[-7,7],"coffee")
+print("-"*20,"ENERGY AFTER COFFEE","-"*20)
+average_energy(power,groundtruth,[7,21],"coffee")
+print("-"*20,"ENERGY AFTER ON","-"*20)
+average_energy(power,groundtruth,[7,21],"on")
+print("-"*20,"ENERGY BEFORE COFFEE","-"*20)
+average_energy(power,groundtruth,[-21,-7],"coffee")
+print("-"*20,"ENERGY BEFORE ON","-"*20)
+average_energy(power,groundtruth,[-21,-7],"on")
+
+draw_power_graphics(power,[sp1,sp2],band=2500)
+#draw_around_event(power,groundtruth,[10,10],"coffee")
