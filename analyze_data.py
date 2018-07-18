@@ -156,6 +156,12 @@ def get_special_point(power,events,borders,eventName,numericValue):
     print("number of", eventName ,"in groudtruth and power=",count)
     return event_index,[numericValue]*len(event_index)
 
+def return_array_of_power(power,start_date,end_date):
+    values = power[(power['time']>start_date)&(power['time']<end_date)]['value']
+    s="["
+    for i in values:
+        s += (str(i)+",")
+    return s
 ''' Exaple 1
 power = pd.read_csv("power.csv")
 groundtruth = pd.read_csv("groudtruth.csv")
