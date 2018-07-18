@@ -74,11 +74,16 @@ def modify_hour(data,hour,ms):
     #ore: quante ore si vogliono sommare alla data 
     #ms: numero di caratteri, nella data presente in tabella, presenti dopo i secondi
     #(esempio: per "2018-07-02 11:30:30.05" ms=3 per eliminare ".05")
-    d = str(data['time'][0])
-    d = d[0:len(d)-ms]
-    time.mktime(datetime.strptime(d, "%Y-%I-%d %H:%M:%S").timetuple())
-    d=datetime.fromtimestamp(time.mktime(datetime.strptime(d, "%Y-%I-%d %H:%M:%S").timetuple())+(60*60*hour))
-    data['time']=d
+    i = 0
+    array = []
+    while(i<len(data['time'])):
+        d = str(data['time'][i])
+        d = d[0:len(d)-ms]
+        time.mktime(datetime.strptime(d, "%Y-%m-%d %H:%M:%S").timetuple())
+        d=datetime.fromtimestamp(time.mktime(datetime.strptime(d, "%Y-%m-%d %H:%M:%S").timetuple())+(60*60*hour))
+        array.append(d)
+        i += 1
+    data['time']=array
     return data
 
 #Codice di esempio che usa i metodi sopra (senza creare nuovi file):

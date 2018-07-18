@@ -180,8 +180,9 @@ sp_2 = get_special_point(groundtruth,[10,10],"on",1000)
 draw_power_graphics(power,[sp,sp_2],band=2500)
 '''
 
-power = pd.read_csv("power.csv")
-groundtruth = pd.read_csv("groudtruth.csv")
+'''
+power = pd.read_csv("../03-07-2018.csv")
+groundtruth = pd.read_csv("../groundtruth_correct.csv")
 sp1 = get_special_point(power,groundtruth,[7,7],"coffee",1000)
 sp2 = get_special_point(power,groundtruth,[7,7],"on",1000)
 print("-"*20,"ENERGY FOR ON","-"*20)
@@ -199,3 +200,4 @@ average_energy(power,groundtruth,[-21,-7],"on")
 
 draw_power_graphics(power,[sp1,sp2],band=2500)
 #draw_around_event(power,groundtruth,[10,10],"coffee")
+'''
